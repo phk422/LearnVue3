@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <script>
+    const options = {
+      data() {
+        return {
+        }
+      },
+      // 这个时候家没有创建实例，只能访问组件的props
+      // 当业务逻辑复杂时，可以将相同的业务逻辑封装到一起，单独导出，在setup中在进行统一的处理
+      setup() {
+
+      }
+    };
+    Vue.createApp(options).mount('#app');
+  </script>
+</body>
+
+</html>
