@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app">
+    <form @submit.prevent="submit">
+      <label for="username">
+        姓名：
+        <input id="username" type="text" v-model="formData.username">
+      </label>
+      <br>
+      <label for="password">
+        密码：
+        <input id="password" type="password" v-model="formData.password">
+      </label>
+      <br>
+      <input type="submit" value="提交">
+    </form>
+    <!-- 使用$event传递事件对象， 如果没有其他参数会默认传递event对象 -->
+    <button @click="btnClick('你好', $event)">按钮</button>
+    <br>
+    <!-- 多事件处理 可以传递多个方法-->
+    <button @click="one($event), two($event)">多事件处理</button>
+
+    <!-- 系统修饰符 Ctrl + Click -->
+    <div @click.ctrl="doSomething">Do something</div>
+    <!-- 按键码 -->
+    <input @keyup.enter="doDo" />
+  </div>
+
+  <script>
+    const options = {
+      data () {
+        return {
+          formData: {}
+        }
+      },
+      methods: {
+        submit(e) {
+          // 组织默认的事件
+          e.preventDefault()
+          console.log(e)
+          console.log(this.formData)
+        },
+        btnClick(params, e) {
+          console.log(e);
+          console.log('按钮点击了。。。');
+        },
+        one(e) {
+          setTimeout(() => {
+            console.log('one...', e)
+          }, 2000)
+        },
+        two(e) {
+          console.log('two...', e);
+        },
+        doSomething() {
+          console.log('doSomething....');
+        },
+        doDo() {
+          console.log('doDo.....');
+        }
+      }
+    }
+    Vue.createApp(options).mount('#app')
+  </script>
+  
+</body>
+</html>

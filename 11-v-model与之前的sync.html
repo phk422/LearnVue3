@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=\, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@next"></script>
+  <!-- <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.7/vue.min.js"></script> -->
+</head>
+<body>
+  <div id="app">
+    <!-- 类似于之前vue2版本的.sync语法糖 -->
+    <!-- <my-input :value.sync="value"></my-input> -->
+    <my-input v-model:value="value"></my-input>
+    <h4>{{value}}</h4>
+  </div>
+
+  <script>
+    const MyInput = {
+      props: {
+        value: String
+      },
+      template: `
+        <div>
+          <input 
+            :value="value" 
+            @input="$emit('update:value', $event.target.value)">
+        </div>
+      `
+    };
+    Vue.createApp({
+      components: {
+        MyInput
+      },
+      data () {
+        return {
+          value: 0
+        }
+      }
+    }).mount("#app")
+    // new Vue({
+    //   components: {
+    //     MyInput
+    //   },
+    //   data () {
+    //     return {
+    //       value: 0
+    //     }
+    //   }
+    // }).$mount('#app')
+  </script>
+  
+</body>
+</html>

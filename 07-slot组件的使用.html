@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="app">
+    <my-cpn>
+      <!-- .具名插槽的使用 -->
+      <template v-slot:msg>
+        some message
+      </template>
+    </my-cpn>
+  </div>
+
+  <script>
+    const app = Vue.createApp({});
+
+    app.component('MyCpn', {
+      template: `
+        <div>
+          <strong>Error:</strong>
+          <slot name="msg"></slot>
+        </div>
+      `
+    });
+
+    app.mount('#app');
+
+  </script>
+  
+</body>
+</html>

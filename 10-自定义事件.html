@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    .my-input::-webkit-input-placeholder {
+      color: #c0c4cc;
+    }
+
+    .my-input:-moz-placeholder {
+      color: #c0c4cc;
+    }
+
+    .my-input:-ms-input-placeholder {
+      color: #c0c4cc;
+    }
+    .my-input {
+      width: 150px;
+      height: 25px;
+      border: 1px solid #e3e5eb;
+      border-radius: 5px;
+      padding-left: 15px;
+      padding-right: 15px;
+      font-size: 12px;
+      /* color: #c0c4cc; */
+    }
+
+    .my-input:focus {
+      border: 1px solid #2875ff;
+      outline: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="app">
+    <my-input @input="input"></my-input>
+  </div>
+
+  <script>
+    const MyInput = {
+      inheritAttrs: false, // 将其设为false将不会继承在根元素上      
+      template: `
+        <div>
+          <input class="my-input" @input="input" placeholder="请输入内容" >
+        </div>
+      `,
+      methods: {
+        input(e) {
+          this.$emit('input', e.target.value);
+        }
+      }
+    };
+
+    Vue.createApp({
+      components: {
+        MyInput
+      },
+      methods: {
+        input(e) {
+          console.log(e);
+        }
+      }
+    }).mount('#app');
+  </script>
+
+</body>
+
+</html>

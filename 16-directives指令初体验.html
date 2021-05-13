@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app">
+    <input v-focus>
+  </div>
+
+  <script>
+    // 完成需求: 自定义指令让input自动聚焦
+    const options= {
+      data() {
+        return {
+        }
+      }
+    };
+    const app = Vue.createApp(options)
+    // 全局注册
+    app.directive('focus', {
+      mounted (el) {
+        console.log(el);
+        el.focus();
+      }
+    })
+    // 指令的钩子： https://vue3js.cn/docs/zh/guide/custom-directive.html#%E7%AE%80%E4%BB%8B
+    app.mount('#app');
+  </script>
+</body>
+</html>

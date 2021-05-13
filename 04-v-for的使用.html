@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- 遍历数组 -->
+    <h3>遍历数组</h3>
+    <ul>
+      <!-- 用in -->
+      <li v-for="item in fruits">{{item}}</li>
+      <!-- 用of也可 -->
+      <li v-for="item of fruits">{{item}}</li>
+      <!-- 第二参数index -->
+      <li v-for="(item, index) in fruits">{{item + index}}</li>
+    </ul>
+    <h3>遍历对象</h3>
+    <ul>
+      <!-- item表示属性的值 -->
+      <li v-for="item in profile">{{item}}</li>
+      <!-- 获取key -->
+      <li v-for="(item, key) in profile">{{key + ': ' +item}}</li>
+      <!-- 第三个参数是index -->
+      <li v-for="(item, key, index) in profile">{{index + '、' + key + ': ' +item}}</li>
+
+    </ul>
+  </div>
+
+  <script>
+    const options = {
+      data () {
+        return {
+          fruits: ['西瓜', '香蕉', '苹果', '李子'],
+          profile: {
+            name: 'codervae',
+            age: 18,
+            height: 1.88
+          }
+        }
+      }
+    }
+    Vue.createApp(options).mount('#app')
+  </script>
+  
+</body>
+</html>

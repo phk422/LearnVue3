@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    ul {
+      list-style: none;
+    }
+    li {
+      display: inline;
+      cursor: pointer;
+      margin-right: 20px;
+    }
+  li.active {
+    color: red;
+  }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <ul>
+      <li v-for="(item, index) in menus" 
+          :key="item.name"
+          :class="currentIndex === index ? 'active':''"
+          @click="currentIndex = index">{{item.name}}</li>
+    </ul>
+    <!-- 防止组件重新渲染 -->
+    <!-- 
+      include - string | RegExp | Array。只有名称匹配的组件会被缓存。
+      exclude - string | RegExp | Array。任何名称匹配的组件都不会被缓存。
+      max - number | string。最多可以缓存多少组件实例。
+     -->
+    <keep-alive include="Home,Profile">
+      <component :is="currentComponent"></component>
+    </keep-alive>
+  </div>
+
+  <script>
+    const Home = {
+      name: 'Home',
+      template:  `
+        <h3>首页<h3>
+      `,
+      created () {
+        console.log('首页....');
+      }
+    };
+    const Profile = {
+      name: 'Profile',
+      template:  `
+        <h3>个人信息<h3>
+      `,
+      created () {
+        console.log('个人信息....');
+      },
+      activated () {
+        console.log('Profile Actived..');
+      },
+      deactivated () {
+        console.log('Profile Deactivated..');
+      }
+    };
+    const Category = {
+      template:  `
+        <h3>分类<h3>
+      `,
+      created () {
+        console.log('分类....');
+      }
+    };
+    const options= {
+      data() {
+        return {
+          menus: [{ name: '首页', path: 'Home'}, { name: '个人信息', path: 'Profile'}, { name: '分类', path: 'Category'}],
+          currentIndex: 0
+        }
+      },
+      computed: {
+        currentComponent() {
+          return this.menus[this.currentIndex].path
+        }
+      },
+      components: {
+        Home, Profile, Category
+      }
+    };
+    Vue.createApp(options).mount('#app');
+  </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@next"></script>
+  <!-- 样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/element-plus/lib/index.full.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" v-model="username">
+    <input type="checkbox" v-model="fruits" id="apple" value="苹果">
+    <label for="apple">苹果</label>
+    <input type="checkbox" v-model="fruits" id="orange" value="橘子">
+    <label for="orange">橘子</label>
+    <input type="checkbox" v-model="fruits" id="banana" value="香蕉">
+    <label for="banana">香蕉</label>
+    <div>{{fruits}}</div>
+    <hr>
+    <!-- lazy修饰符：change过后才会改变其值 -->
+    <input type="text" v-model.lazy="num"><span>{{num}}</span>
+    <!-- number -->
+    <input type="number" v-model.number="num1" @input="num1Input">
+    <br>
+    <el-button type="primary" size="mini">按钮</el-button>
+    <hr>
+
+
+    <!-- <template v-for="(item, index) in forms">
+      <el-form :ref="`ruleForm${index}`" :model="item" size="mini" inline :rules="rules">
+        <el-form-item prop="name">
+          <el-input v-model="item.name" placeholder="" />
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input v-model="item.password" placeholder="" show-password />
+        </el-form-item>
+        <el-button plain size="mini" @click="addRow(index)">添加行</el-button>
+        <el-button type="danger" plain size="mini" @click="removeRow(index)">删除行</el-button>
+      </el-form>
+    </template> -->
+    <el-form ref="ruleForm" :model="forms" >
+      <el-table :data="forms" border style="width: 600px;">
+        <el-table-column label="姓名" prop="name" align="center">
+          <template #default='{row, $index}'>
+            <el-form-item :prop="'.' + $index + '.name'" :rules="rules.name">
+              <el-input size="mini" v-model="row.name" placeholder="" />
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column label="密码" prop="password" align="center">
+          <template #default='{row, $index}'>
+            <el-form-item :prop="'.' + $index + '.password'" :rules="rules.password">
+              <el-input size="mini" v-model="row.password" placeholder="" />
+            </el-form-item>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="操作">
+          <template #default="{row, $index}">
+            <el-button plain size="mini" @click="addRow($index)">添加行</el-button>
+            <el-button type="danger" plain size="mini" @click="removeRow($index)">删除行</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-form>
+
+    <el-button type="primary" size="mini" @click="submit">提交</el-button>
+
+    <!-- <button class="el-button el-button--primary el-button--mini">按钮</button> -->
+  </div>
+
+  <script>
+    const options = {
+      data() {
+        return {
+          msg: 'HelloWorld!',
+          username: '',
+          fruits: [],
+          num: '',
+          num1: 1,
+          forms: [
+            // list: [
+            //   {
+            //     name: '',
+            //     password: ''
+            //   },
+            // ]
+            {
+              name: 'coder',
+              password: ''
+            }
+          ],
+          rules: {
+            name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+            password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+          }
+        }
+      },
+      methods: {
+        // 表单校验
+        checkForm() {
+          const refs = this.$refs
+          console.log(refs);
+          const ps = []
+          for (let key in refs) {
+            if (key.indexOf('ruleForm') === -1) continue;
+            if (refs[key]) ps.push(refs[key].validate());
+          }
+          console.log(ps);
+          return Promise.all(ps);
+        },
+        num1Input() {
+          console.log(this.num1);
+        },
+        submit() {
+          // this.checkForm().then(res => {
+          //   this.$message.success('表单校验通过');
+          // }).catch(err => {
+          //   this.$message.warning('表单校验失败');
+          // })
+          this.$refs.ruleForm.validate(valid => {
+            if (valid) {
+              this.$message.success('表单校验通过');
+            } else {
+              this.$message.warning('表单校验失败');
+            }
+          })
+        },
+        addRow(index) {
+          this.forms.splice(index + 1, 0, { name: '', password: '' });
+        },
+        removeRow(index) {
+          this.forms.splice(index, 1);
+        }
+      }
+    };
+
+    // 链式调用
+    Vue.createApp(options).use(ElementPlus).mount('#app');
+  </script>
+</body>
+
+</html>

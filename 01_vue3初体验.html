@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app">
+    <h3>计数器</h3>
+    <span>{{ counter }}</span>
+    <div v-bind:title="message">点我</div>
+    <h3>{{ value }}</h3>
+    <input v-model="value" />
+    
+    <button @click="isShow = !isShow">点我</button>
+    <div class="conditional-rendering">
+      <span v-if="isShow">你好世界</span>
+    </div>
+  </div>
+
+  <script>
+    const Counter = {
+      data() {
+        return {
+          counter: 0,
+          message: new Date().toLocaleString(),
+          value: 'hello',
+          isShow: true
+        }
+      },
+      mounted () {
+        setInterval(() => {
+          this.counter++
+        }, 1000)
+      }
+    }
+
+    Vue.createApp(Counter).mount('#app')
+  </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.7/vue.min.js"></script>
+</head>
+<body>
+
+  <div id="app">
+    <div>
+      <!-- vue组件使用单标签会出问题 -->
+      <counter></counter>
+      <div>hello</div>
+    </div>
+  </div>
+
+  <script>
+    const Counter = {
+      name: 'Name',
+      template: `
+        <div>
+          <h2>{{counter}}</h2>  
+          <button @click="counter++">+1</button>
+        </div>
+      `,
+      data () {
+        return {
+          counter: 0
+        }
+      }
+    };
+    
+    const Counter2 = {
+      template: `
+        <div>
+          <h2>{{counter}}</h2>  
+          <button @click="counter+2">+2</button>
+        </div>
+      `,
+      data () {
+        return {
+          counter: 0
+        }
+      }
+    }
+    new Vue({
+      el: '#app',
+      components: { Counter, Counter2 }
+    })
+  </script>
+  
+</body>
+</html>

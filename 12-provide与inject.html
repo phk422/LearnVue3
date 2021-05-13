@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <!-- 
+    https://vue3js.cn/docs/zh/guide/component-provide-inject.html#%E5%A4%84%E7%90%86%E5%93%8D%E5%BA%94%E6%80%A7
+   -->
+  <div id="app">
+    <input v-model="parentData" >
+    <my-parent></my-partent>
+  </div>
+
+  <script>
+    const Child2 = {
+      template: `
+        <div>
+          我是子组件2  :{{parentData}}
+        </div>
+      `,
+      setup() {
+        const parentData = Vue.inject('parentData')
+        return { parentData }
+      },
+      created () {
+        console.log(this.d);
+      }
+    };
+
+    const Child1 = {
+      template: `
+        <div>
+          我是子组件1
+          <child2></child2>
+        </div>
+      `,
+      components: {
+        Child2
+      }
+    };
+
+    const MyParent = {
+      template: `
+        <div>
+          我是父组件
+          <child1></child1>
+        </div>
+      `,
+      components: {
+        Child1
+      }
+    };
+    const options = {
+      components: {
+        MyParent
+      },
+      data() {
+        return {
+          parentData: '我是父组件的数据'
+        }
+      },
+      // provide: {
+      //   parentData: '我是父组件的数据'
+      // },
+
+      // 要访问组件实例 property，我们需要将 provide 转换为返回对象的函数
+      setup() {
+        console.log(this.parentData);
+        Vue.provide('parentData', Vue.reactive('a'))
+      }
+    };
+
+    Vue.createApp(options).mount('#app');
+    // 响应式
+    // https://vue3js.cn/docs/zh/guide/composition-api-provide-inject.html#%E4%BF%AE%E6%94%B9%E5%93%8D%E5%BA%94%E5%BC%8F-property
+  </script>
+</body>
+
+</html>

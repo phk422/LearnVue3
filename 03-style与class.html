@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    .active {
+      color: red;
+    }
+    .other {
+      font-size: 20px;
+    }
+    ul {
+      list-style: none;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    li {
+      display: inline;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h2>{{message}}</h2>
+    <ul>
+      <!-- 字符串拼接 -->
+      <!-- <li v-for="(item, index) in items" :key="item" :class=" currentIndex === index ? 'active':'' " >{{item}}</li> -->
+      <!-- 对象语法: 灵活使用 -->
+      <!-- <li v-for="(item, index) in items" :key="item" :class="{ active: currentIndex === index }" @click="currentIndex = index" >{{item}}</li> -->
+      <!-- 数组语法 -->
+      <li v-for="(item, index) in items" :key="item" :class="[{ active: currentIndex === index }, 'other']" @click="currentIndex = index" >{{item}}</li>
+    </ul>
+
+    <!-- 内联样式 -->
+    <!-- 对象语法 -->
+    <!-- css属性采用驼峰，或者带引号的短横线 -->
+    <div :style="{ color: 'red', 'font-size': '30px', fontWeight: 700 }">我是一段文字！</div>
+    <div :style="styleObject">我是一段文字2！</div>
+    <!-- 数组语法 -->
+    <div :style="[styleObject, {fontWeight: 700}]">我是一段文字3！</div>
+  </div>
+
+  <script>
+    const options = {
+      data () {
+        return {
+          items: ['首页', '热门', '我的'],
+          currentIndex: 0,
+          message: 'Hello World!',
+          styleObject: {
+            color: 'green',
+            fontSize: '40px'
+          }
+        }
+      }
+    }
+
+    Vue.createApp(options).mount('#app')
+  </script>
+  
+</body>
+</html>

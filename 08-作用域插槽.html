@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+
+  <div id="app">
+    <user-cpn>
+      <!-- 获取组件中的数据 -->
+      <!-- <template v-slot:default="slotProps">
+        {{slotProps.user.age}}
+      </template> -->
+      <!-- 语法糖 -->
+      <!-- <template #default="{user}">
+        {{user.age}}
+      </template> -->
+
+      <!-- 解构 并重命名-->
+      <template v-slot:default="{user: person}">
+        {{person.age}}
+      </template>
+
+      <!-- 具名插槽 -->
+      <template #user2="{user}">
+        {{user.name}}
+      </template>
+      <!-- 不具名插槽默认名称为”default“ -->
+    </user-cpn>
+  </div>
+  
+  <script>
+    const app = Vue.createApp({});
+
+
+    app.component('user-cpn', {
+      template: `
+        <div>
+          <slot :user="user">{{ user.name }}</slot>
+          <br>
+          <slot name="user2" :user="user2">{{ user2.name }}</slot>
+        <div>
+      `,
+      data () {
+        return {
+          user: {
+            name: 'codervae',
+            age: 18
+          },
+          user2: {
+            name: 'coderwhy',
+            age: 20
+          }
+        }
+      }
+    })
+    app.mount('#app');
+  </script>
+</body>
+</html>

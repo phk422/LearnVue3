@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app">
+    {{msg}}
+    <my-cpn></my-cpn>
+  </div>
+
+  <script>
+
+    const myMixin = {
+      data () {
+        return {
+          msg: 'Hello World',
+          commonMsg: '混入数据'
+        }
+      },
+      methods: {
+        sayHello() {
+          console.log('Hello World');
+        }
+      },
+      created () {
+        console.log('mixin created......');
+      }
+    };
+
+    const MyCpn = {
+      template: `
+        <div>
+          q：
+          {{commonMsg}}
+        </div>
+      `
+    };
+
+    const options= {
+      components: {
+        MyCpn
+      },
+      data() {
+        return {
+          // 选项合并：会已组件的属性优先
+          msg: '你好啊李银河！'
+        }
+      },
+      methods: {
+        // 方法也会选项合并
+        // methods、components 和 directives，将被合并为同一个对象。两个对象键名冲突时，取组件对象的键值对。
+        sayHello() {
+          console.log('你好啊李银河！');
+        }
+      },
+      // 钩子函数合并为一个数组，混入的钩子函数会先于自身钩子被调用
+      created () {
+        this.sayHello()
+      }
+    };
+    const app = Vue.createApp(options)
+    // app.component('MyCpn', MyCpm);
+    app.mixin(myMixin)
+    app.mount('#app');
+  </script>
+</body>
+</html>
